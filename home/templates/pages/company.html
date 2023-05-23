@@ -1,0 +1,365 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block breadcrumbs %}{% endblock breadcrumbs %}
+
+{% block content %}
+
+<div class="row">
+  <!-- [ Typography ] start -->
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-header">
+        <h5>Company name</h5>
+      </div>
+      <div class="card-body">
+        {% static "" as baseUrl %}
+        <div class="d-flex align-items-center mb-4">
+          <img class="rounded-SM" style="width:100px;" src="{{ baseUrl }}assets/images/companies/{{ lead.lead_name }}.png"
+            alt="activity-user">
+          <h1 class="ml-4">{{lead.lead_name}}</h1>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- [ Main Content ] start -->
+  <div class="row">
+    <!--[ daily sales section ] start-->
+    <div class="col-md-6 col-xl-4">
+      <div class="card daily-sales">
+        <div class="card-block">
+          <h6 class="mb-4">Daily Sales /MNT/</h6>
+          <div class="row d-flex align-items-center">
+            <div class="col-9">
+              <h3 class="f-w-300 d-flex align-items-center m-b-0"><i
+                  class="feather icon-arrow-up text-c-green f-30 m-r-10"></i>
+                {{lead.dailySale}} ₮</h3>
+                {% comment %} {% for x in users %}
+                  <li><a href="admin/home/user/{{ x.id }}">{{ x.name }} {{ x.company }}</a></li>
+                {% endfor %} {% endcomment %}
+            </div>
+
+          </div>
+          <div class="progress m-t-30" style="height: 7px;">
+            <div class="progress-bar progress-c-theme" role="progressbar" style="width: 50%;"
+              aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--[ daily sales section ] end-->
+    <!--[ Monthly  sales section ] starts-->
+    <div class="col-md-6 col-xl-4">
+      <div class="card Monthly-sales">
+        <div class="card-block">
+          <h6 class="mb-4">Monthly Sales /MNT/</h6>
+          <div class="row d-flex align-items-center">
+            <div class="col-9">
+              <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i
+                  class="feather icon-arrow-up text-c-green f-30 m-r-10"></i>{{lead.monthlySale}} ₮</h3>
+            </div>
+          </div>
+          <div class="progress m-t-30" style="height: 7px;">
+            <div class="progress-bar progress-c-theme2" role="progressbar" style="width: 35%;"
+              aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--[ Monthly  sales section ] end-->
+    <!--[ year  sales section ] starts-->
+    <div class="col-md-12 col-xl-4">
+      <div class="card yearly-sales">
+        <div class="card-block">
+          <h6 class="mb-4">Yearly Sales /MNT/</h6>
+          <div class="row d-flex align-items-center">
+            <div class="col-9">
+              <h3 class="f-w-300 d-flex align-items-center  m-b-0"><i
+                  class="feather icon-arrow-up text-c-green f-30 m-r-10"></i>{{lead.yearlySale}} ₮</h3>
+            </div>
+          </div>
+          <div class="progress m-t-30" style="height: 7px;">
+            <div class="progress-bar progress-c-theme" role="progressbar" style="width: 70%;"
+              aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--[ year  sales section ] end-->
+    <!--[ Recent Users ] start-->
+    <div class="col-xl-8 col-md-6">
+      <div class="card Recent-Users">
+        <div class="card-header">
+          <h5>Contact histories</h5>
+        </div>
+        <div class="card-block px-0 py-3">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <tbody>
+                {% for contact in contacts %}
+                <tr class="unread">
+                  {% static "" as baseUrl %}
+                  <td><img class="rounded-circle" style="width:40px;" src="{{ baseUrl }}assets/images/user/{{ contact.contacted_name }}.jpg"
+                      alt="activity-user">
+                  </td>
+                  <td>
+                    
+                    <h6 class="mb-1">
+                      <a href="/admin/home/contact/{{contact.id}}" class="label theme-bg2 text-white f-12">{{contact.contacted_name}}</a></h6>
+                  </td>
+                  <td>
+                    <p class="m-0">{{contact.type}}</p>
+                  </td>
+                  <td>
+                    <h6 class="text-muted"><i class="fas fa-circle text-c-green f-10 m-r-15"></i>{{contact.date}}</h6>
+                  </td>
+                  <td style="
+                  white-space: normal;
+              ">
+                    <p class="m-0">{{contact.note}}</p>
+                    {% comment %} <a href="#!" class="label theme-bg2 text-white f-12">Reject</a><a href="#!"
+                      class="label theme-bg text-white f-12">Approve</a> {% endcomment %}
+                  </td>
+                </tr>
+                {% endfor %} 
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--[ Recent Users ] end-->
+
+    <!-- [ statistics year chart ] start -->
+    <div class="col-xl-4 col-md-6">
+      <div class="card">
+        <div class="card-block border-bottom">
+          <div class="row d-flex align-items-center">
+            <div class="col-auto">
+              <i class="feather icon-zap f-30 text-c-green"></i>
+            </div>
+            <div class="col">
+              <div class="mb-">
+                {% for user in users %}
+                  {% if user.company == lead.lead_name %}
+                  <a href="/admin/home/user/{{user.id}}" class=" text-white f-12"><img class="rounded-circle" style="width:40px;" src="{{ baseUrl }}assets/images/user/{{ user.name }}.jpg"
+                    alt="activity-user"></a></h6>
+                    
+                  {% endif%}
+                {% endfor %} </div>
+              <span class="d-block text-uppercase">{{employees_count}} TOTAL employees</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-block">
+          <div class="row d-flex align-items-center">
+            <div class="col-auto">
+              <i class="feather icon-map-pin f-30 text-c-blue"></i>
+            </div>
+            <div class="col">
+              <h3 class="f-w-300">LOCATION</h3>
+              <span class="d-block text-uppercase">{{lead.address}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-block">
+          <div class="row d-flex align-items-center">
+            <div class="col-auto">
+              <i class="feather icon-phone f-30 text-c-blue"></i>
+            </div>
+            <div class="col">
+              <h3 class="f-w-300">Phone</h3>
+              <span class="d-block text-uppercase">{{lead.phone}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- [ statistics year chart ] end -->
+    <!--[social-media section] start-->
+
+   
+    
+    <!--[social-media section] end-->
+    <!-- [ rating list ] starts-->
+      <!-- [ Typography ] start -->
+      <div class="col-sm-8">
+        <div class="card">
+          <div class="card-header">
+            <h5>Tasks</h5>
+          </div>
+        </div>
+      </div>
+
+    <!-- [ rating list ] end-->
+    <div class="col-xl-8 col-md-12 m-b-30">
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+            aria-selected="false">Today</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active show" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+            aria-controls="profile" aria-selected="true">This
+            Week</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
+            aria-controls="contact" aria-selected="false">All</a>
+        </li>
+      </ul>
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Activity</th>
+                <th>Time</th>
+                <th>Status</th>
+                <th class="text-right"></th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for task in today_task %}
+                  <tr>
+                    <td>
+                      <h6 class="m-0">
+                      {% static "" as baseUrl %}
+                      <img class="rounded-circle m-r-10" style="width:40px;"
+                      src="{{ baseUrl }}assets/images/user/{{ task.owner }}.jpg" alt="activity-user">
+                      <a href="/admin/home/activity/{{task.id}}" class="label theme-bg2 text-white f-12">{{task.owner}}</a></h6>
+                      </h6>
+                    </td>
+                    <td>
+                      <h6 class="m-0">{{task.activity_name}}</h6>
+                    </td>
+                    <td>
+                      <h6 class="m-0">{{task.createdDate}}</h6>
+                    </td>
+                    <td>
+                      {% if task.status == 'Хийгдэж байгаа' %}
+                        <h6 class="m-0 text-c-red">{{task.status}}</h6>
+                      {% else %}
+                        <h6 class="m-0 text-c-green">{{task.status}}</h6>
+                      {% endif %}
+                    </td>
+                    {% if task.status == 'Хийгдэж байгаа' %}
+                      <td class="text-right"><i class="fas fa-circle text-c-red f-10"></i>
+                    {% else %}
+                      <td class="text-right"><i class="fas fa-circle text-c-green f-10"></i>
+                    {% endif %}
+                  
+                    </td>
+                  </tr> 
+                {% endfor %} 
+
+            </tbody>
+          </table>
+
+        </div>
+        <div class="tab-pane fade active show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Activity</th>
+                <th>Time</th>
+                <th>Status</th>
+                <th class="text-right"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for task in week_task %}
+                  <tr>
+                    <td>
+                      <h6 class="m-0">
+                      {% static "" as baseUrl %}
+                      <img class="rounded-circle m-r-10" style="width:40px;"
+                      src="{{ baseUrl }}assets/images/user/{{ task.owner }}.jpg" alt="activity-user">
+                      <a href="/admin/home/activity/{{task.id}}" class="label theme-bg2 text-white f-12">{{task.owner}}</a></h6>
+                      </h6>
+                    </td>
+                    <td>
+                      <h6 class="m-0">{{task.activity_name}}</h6>
+                    </td>
+                    <td>
+                      <h6 class="m-0">{{task.createdDate}}</h6>
+                    </td>
+                    <td>
+                      {% if task.status == 'Хийгдэж байгаа' %}
+                        <h6 class="m-0 text-c-red">{{task.status}}</h6>
+                      {% else %}
+                        <h6 class="m-0 text-c-green">{{task.status}}</h6>
+                      {% endif %}
+                    </td>
+                    {% if task.status == 'Хийгдэж байгаа' %}
+                      <td class="text-right"><i class="fas fa-circle text-c-red f-10"></i>
+                    {% else %}
+                      <td class="text-right"><i class="fas fa-circle text-c-green f-10"></i>
+                    {% endif %}
+                  
+                    </td>
+                  </tr> 
+                {% endfor %} 
+            </tbody>
+          </table>
+
+        </div>
+        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Activity</th>
+                <th>Time</th>
+                <th>Status</th>
+                <th class="text-right"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for task in company_tasks %}
+                  <tr>
+                    <td>
+                      <h6 class="m-0">
+                      {% static "" as baseUrl %}
+                      <img class="rounded-circle m-r-10" style="width:40px;"
+                      src="{{ baseUrl }}assets/images/user/{{ task.owner }}.jpg" alt="activity-user">
+                      <a href="/admin/home/activity/{{task.id}}" class="label theme-bg2 text-white f-12">{{task.owner}}</a></h6>
+                      </h6>
+                    </td>
+                    <td>
+                      <h6 class="m-0">{{task.activity_name}}</h6>
+                    </td>
+                    <td>
+                      <h6 class="m-0">{{task.createdDate}}</h6>
+                    </td>
+                    <td>
+                      {% if task.status == 'Хийгдэж байгаа' %}
+                        <h6 class="m-0 text-c-red">{{task.status}}</h6>
+                      {% else %}
+                        <h6 class="m-0 text-c-green">{{task.status}}</h6>
+                      {% endif %}
+                    </td>
+                    {% if task.status == 'Хийгдэж байгаа' %}
+                      <td class="text-right"><i class="fas fa-circle text-c-red f-10"></i>
+                    {% else %}
+                      <td class="text-right"><i class="fas fa-circle text-c-green f-10"></i>
+                    {% endif %}
+                  
+                    </td>
+                  </tr> 
+                {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- [ Main Content ] end -->
+
+{% endblock content %}
